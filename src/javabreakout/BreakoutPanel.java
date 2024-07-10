@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BreakoutPanel extends JPanel implements Runnable {
-    private final int fps = 60; /// Frames per Second
+    private final int fps = 40; /// Frames per Second
     private final int brickWidth = 64;
     private final int brickHeight = 32;
     private final int brickBuffer = 128;
@@ -111,7 +111,8 @@ public class BreakoutPanel extends JPanel implements Runnable {
                 System.out.println("Left pressed");
                 if (paddle.getPaddleX() - paddle.getPaddleSpeed() > 0)
                     paddle.moveLeft();
-            } else if(paddle.getPaddleX() + paddle.getPaddleSpeed() < 900) { // This value so the paddle does not move out of the panel
+            } else if(paddle.getPaddleX() + paddle.getPaddleSpeed() < 900) { // This value so the paddle
+                System.out.printf("Paddle X, Paddle speed: %d %d %d", paddle.getPaddleX(), paddle.getPaddleSpeed(), panelWidth);
                 paddle.moveRight();
             }
 
