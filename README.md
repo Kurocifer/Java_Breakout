@@ -6,4 +6,4 @@ A Simple Clone of the Atari Breakout Game
 
     ![Image](./Image.png)
 
-* Any help to fix the issue will be cool because I don't know what I'm doing :)Game
+* Any help to fix the issues will be cool because I don't know what I'm doing :).
