@@ -10,6 +10,7 @@ public class Brick {
 
     private Color color;
     private boolean broken;
+// break brick!
 
     public Brick(int brickX, int brickY, int width,
                  int height, Color color) {

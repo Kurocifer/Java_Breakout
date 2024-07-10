@@ -17,11 +17,11 @@ public class Paddle {
         this.paddleSpeed = paddleSpeed;
     }
 
-    public void movingLeft() {
+    public void moveLeft() {
         paddleX -= paddleSpeed;
     }
 
-    public void movingRight() {
+    public void moveRight() {
         paddleX += paddleSpeed;
     }
 
