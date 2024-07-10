@@ -24,10 +24,10 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if(code == KeyEvent.VK_A)
+        if(code == KeyEvent.VK_LEFT)
             leftPressed = true;
 
-        if(code == KeyEvent.VK_D)
+        if(code == KeyEvent.VK_RIGHT)
             rightPressed = true;
 
         if(panel.getBallIsDead()) {
@@ -40,9 +40,9 @@ public class KeyHandler implements KeyListener {
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if(code == KeyEvent.VK_A)
+        if(code == KeyEvent.VK_LEFT)
             leftPressed = false;
-        if(code == KeyEvent.VK_D)
+        if(code == KeyEvent.VK_RIGHT)
             rightPressed = false;
     }
 

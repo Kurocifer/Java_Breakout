@@ -36,6 +36,8 @@ public class BreakoutPanel extends JPanel implements Runnable {
         panelWidth = width;
         panelHeight = height;
 
+        System.out.println(panelHeight + " " + panelWidth);
+
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.setBackground(Color.black);
         this.setFocusable(true);
@@ -49,7 +51,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
         ballIsDead = true;
         ballIsPlayable = false;
         panelThread = Thread.ofVirtual()
-                .name("Breackout")
+                .name("Breakout")
                 .unstarted(this);
     }
 
@@ -75,7 +77,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
 
         while(brickCol < 16) {
             while(brickRow < 8) {
-                Brick newBrick = new Brick(brickCol * brickWidth, (brickRow * brickHeight) * brickBuffer,
+                Brick newBrick = new Brick(brickCol * brickWidth, (brickRow * brickHeight) + brickBuffer,
                         brickCol + brickWidth, brickRow + brickHeight, colorList.get(brickRow));
 
                 returnedBricks.add(newBrick);
@@ -104,16 +106,15 @@ public class BreakoutPanel extends JPanel implements Runnable {
     private void update() {
         // Update paddle
         if(keyHandler.isLeftPressed() || keyHandler.isRightPressed()) {
+            System.out.println("Reached here");
             if (keyHandler.isLeftPressed()) {
-                if (paddle.getPaddleX() - paddle.getPaddleSpeed() > 0) {
+                System.out.println("Left pressed");
+                if (paddle.getPaddleX() - paddle.getPaddleSpeed() > 0)
                     paddle.moveLeft();
-                    ;
-                } else {
-                    if (paddle.getPaddleX() + paddle.getPaddleSpeed() < panelWidth) {
-                        paddle.moveRight();
-                    }
-                }
+            } else if(paddle.getPaddleX() + paddle.getPaddleSpeed() < 900) { // This value so the paddle does not move out of the panel
+                paddle.moveRight();
             }
+
         }
 
         // Update ball
