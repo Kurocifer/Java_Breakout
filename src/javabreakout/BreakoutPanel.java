@@ -6,11 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BreakoutPanel extends JPanel implements Runnable {
-    private final int fps = 40; /// Frames per Second
-    private final int brickWidth = 64;
-    private final int brickHeight = 32;
-    private final int brickBuffer = 128;
-    private final int ballSize = 11;
+    private final int FPS = 40; /// Frames per Second
+    private final int BRICK_WIDTH = 64;
+    private final int BRICK_HEIGHT = 32;
+    private final int BRICK_BUFFER = 128;
+    private final int BALL_SIZE = 11;
 
     private boolean ballIsDead;
     private boolean ballIsPlayable;
@@ -35,9 +35,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
     public BreakoutPanel(int width, int height) {
         panelWidth = width;
         panelHeight = height;
-
-        System.out.println(panelHeight + " " + panelWidth);
-
+        
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.setBackground(Color.black);
         this.setFocusable(true);
@@ -77,8 +75,8 @@ public class BreakoutPanel extends JPanel implements Runnable {
 
         while(brickCol < 16) {
             while(brickRow < 8) {
-                Brick newBrick = new Brick(brickCol * brickWidth, (brickRow * brickHeight) + brickBuffer,
-                        brickCol + brickWidth, brickRow + brickHeight, colorList.get(brickRow));
+                Brick newBrick = new Brick(brickCol * BRICK_WIDTH, (brickRow * BRICK_HEIGHT) + BRICK_BUFFER,
+                        brickCol + BRICK_WIDTH, brickRow + BRICK_HEIGHT, colorList.get(brickRow));
 
                 returnedBricks.add(newBrick);
                 brickRow++;
@@ -96,7 +94,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
             repaint();
 
             try {
-                Thread.sleep(1000 / fps);
+                Thread.sleep(1000 / FPS);
             } catch(InterruptedException e) {
                 e.printStackTrace();;
             }
@@ -106,13 +104,10 @@ public class BreakoutPanel extends JPanel implements Runnable {
     private void update() {
         // Update paddle
         if(keyHandler.isLeftPressed() || keyHandler.isRightPressed()) {
-            System.out.println("Reached here");
             if (keyHandler.isLeftPressed()) {
-                System.out.println("Left pressed");
                 if (paddle.getPaddleX() - paddle.getPaddleSpeed() > 0)
                     paddle.moveLeft();
             } else if(paddle.getPaddleX() + paddle.getPaddleSpeed() < 900) { // This value so the paddle
-                System.out.printf("Paddle X, Paddle speed: %d %d %d", paddle.getPaddleX(), paddle.getPaddleSpeed(), panelWidth);
                 paddle.moveRight();
             }
 
@@ -126,6 +121,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
                 ball.update();
             }
         }
+
     }
 
     private void checkCollision() {
@@ -165,8 +161,8 @@ public class BreakoutPanel extends JPanel implements Runnable {
             ball.setMovingLeft(false);
         } else if(ballX >= panelHeight && !ball.isMovingLeft()) {
             ball.setMovingLeft(true);
-        } else if (ballY <= (brickHeight * 8) + brickBuffer + brickHeight // A brick has been hit
-                && ballY > brickBuffer) {
+        } else if (ballY <= (BRICK_HEIGHT * 8) + BRICK_BUFFER + BRICK_HEIGHT // A brick has been hit
+                && ballY > BRICK_BUFFER) {
 
             // Handle ball collision with brick
             for (Brick brick : bricks) {
@@ -184,6 +180,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
 
                         // change (flip) the ball's direction after it hits a brick
                         ball.flipVerticalDirection();
+                        break;
                     }
                 }
             }
@@ -201,8 +198,8 @@ public class BreakoutPanel extends JPanel implements Runnable {
             int brickX = brick.getBrickX();
             int brickY = brick.getBrickY();
             g2.setColor(brick.getColor());
-            g2.fillRect(brickX, brickY, brickWidth,
-                    brickHeight);
+            g2.fillRect(brickX, brickY, BRICK_WIDTH,
+                    BRICK_HEIGHT);
         }
 
         // Draw paddle
@@ -241,7 +238,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
 
     public void releaseBall() {
         if(ballsRemaining > 0) {
-            ball = new Ball(ballSize, panelWidth, brickHeight * 8, brickBuffer);
+            ball = new Ball(BALL_SIZE, panelWidth, BRICK_HEIGHT * 8, BRICK_BUFFER);
 
             ballIsDead = false;
             ballIsPlayable = true;

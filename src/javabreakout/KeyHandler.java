@@ -2,8 +2,6 @@ package javabreakout;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.text.BreakIterator;
-
 public class KeyHandler implements KeyListener {
     private BreakoutPanel panel;
     private boolean leftPressed = false;

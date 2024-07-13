@@ -3,8 +3,8 @@ package javabreakout;
 import java.util.Random;
 
 public class Ball {
-    private final int maxSpeed = 8;
-    private final int oneThird = maxSpeed / 3;
+    private final int MAX_SPEED = 8;
+    private final int ONE_THIRD_OF_MAX_SPEED = MAX_SPEED / 3;
 
     private boolean movingUp;
     private boolean movingLeft;
@@ -22,13 +22,13 @@ public class Ball {
         ballSizeOffset = (size / 2) + 1;
 
         ballX = panelWidth / 2;
-        ballY = brickHeightX8 + brickBuffer + 10;
+        ballY = brickHeightX8 + brickBuffer + 60;
 
         // Starting speed and set angle (45 degrees)
-        hSpeed = maxSpeed;
-        vSpeed = maxSpeed;
+        hSpeed = MAX_SPEED;
+        vSpeed = MAX_SPEED;
 
-        // Starting direction
+        // Starting direction512
         Random lefRightDirection = new Random();
         movingLeft = lefRightDirection.nextBoolean();
         movingUp = false;
@@ -36,20 +36,20 @@ public class Ball {
 
     public void update() {
         ballX = movingLeft ? (ballX - hSpeed) : (ballX + hSpeed);
-        ballY = movingUp ? (ballY - hSpeed) : (ballX + hSpeed);
+        ballY = movingUp ? (ballY - hSpeed) : (ballY + vSpeed);
     }
 
     public void increaseAngle() {
-        if(vSpeed - oneThird > 1) {
-            hSpeed += oneThird;
-            vSpeed -= oneThird;
+        if(vSpeed - ONE_THIRD_OF_MAX_SPEED > 1) {
+            hSpeed += ONE_THIRD_OF_MAX_SPEED;
+            vSpeed -= ONE_THIRD_OF_MAX_SPEED;
         }
     }
 
     public void decreaseAngle() {
-        if(vSpeed - oneThird > 1) {
-            hSpeed -= oneThird;
-            vSpeed += oneThird;
+        if(vSpeed - ONE_THIRD_OF_MAX_SPEED > 1) {
+            hSpeed -= ONE_THIRD_OF_MAX_SPEED;
+            vSpeed += ONE_THIRD_OF_MAX_SPEED;
         }
     }
 
@@ -89,11 +89,8 @@ public class Ball {
         return ballY;
     }
 
-    public void setBallY(int ballY) {
-        this.ballY = ballY;
-    }
-
     public int getBallSize() {
         return ballSize;
     }
+
 }
