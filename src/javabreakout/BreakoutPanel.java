@@ -18,6 +18,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
     private int panelWidth;
     private int score = 0;
     private int ballsRemaining = 3;
+    private boolean stop = false;
 
     private Font arial40 = new Font("Arial", Font.PLAIN, 40);
     private List<Brick> bricks;
@@ -35,7 +36,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
     public BreakoutPanel(int width, int height) {
         panelWidth = width;
         panelHeight = height;
-        
+
         this.setPreferredSize(new Dimension(panelWidth, panelHeight));
         this.setBackground(Color.black);
         this.setFocusable(true);
@@ -90,40 +91,45 @@ public class BreakoutPanel extends JPanel implements Runnable {
     @Override
     public void run() {
         while(panelThread.isAlive()) {
-            update();
-            repaint();
+            if(!stop) {
+                update();
+                repaint();
 
-            try {
-                Thread.sleep(1000 / FPS);
-            } catch(InterruptedException e) {
-                e.printStackTrace();;
+                try {
+                    Thread.sleep(1000 / FPS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                    ;
+                }
             }
         }
     }
 
     private void update() {
         // Update paddle
-        if(keyHandler.isLeftPressed() || keyHandler.isRightPressed()) {
+        if (keyHandler.isLeftPressed() || keyHandler.isRightPressed()) {
             if (keyHandler.isLeftPressed()) {
                 if (paddle.getPaddleX() - paddle.getPaddleSpeed() > 0)
                     paddle.moveLeft();
-            } else if(paddle.getPaddleX() + paddle.getPaddleSpeed() < 900) { // This value so the paddle
+            } else if (paddle.getPaddleX() + paddle.getPaddleSpeed() < 900) { // This value so the paddle
                 paddle.moveRight();
             }
 
         }
 
         // Update ball
-        if(!ballIsDead) {
+        if (!ballIsDead) {
             checkCollision();
 
-            if(ballIsPlayable) {
+            if (ballIsPlayable) {
                 ball.update();
             }
         }
 
+        if (ballsRemaining <= 0) {
+            newRound("You ran out of balls. Do you want to restart ?");
+        }
     }
-
     private void checkCollision() {
         int ballX = ball.getBallX();
         int ballY = ball.getBallY();
@@ -233,6 +239,7 @@ public class BreakoutPanel extends JPanel implements Runnable {
     }
 
     public void start() {
+        stop = false;
         panelThread.start();
     }
 
@@ -247,5 +254,15 @@ public class BreakoutPanel extends JPanel implements Runnable {
 
     public boolean getBallIsDead() {
         return this.ballIsDead;
+    }
+
+    private void newRound(String alertMessage) {
+        stop = true;
+        int rePlay = JOptionPane.showConfirmDialog(
+                null, alertMessage, "Confirmation", JOptionPane.YES_NO_OPTION);
+        if (rePlay == JOptionPane.YES_OPTION) {
+            ballsRemaining = 3;
+            stop = false;
+        }
     }
 }
